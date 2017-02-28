@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.coolcuy.dto.CarDto;
 import com.coolcuy.dto.SpotNameDto;
+import com.coolcuy.dto.UserDto;
 import com.coolcuy.service.CarService;
 import com.coolcuy.service.CarServiceImpl;
 import com.coolcuy.service.RentService;
@@ -67,21 +68,18 @@ public class ControllerSecond extends HttpServlet {
 			response.getWriter().write(spotName);
 		} else if(command.equals("/getCar.data")){
 			RentService service = new RentServiceImpl();
-//			UserDto user = (UserDto)request.getSession().getAttribute("authUser");
+			UserDto user = (UserDto)request.getSession().getAttribute("authUser");
 			
 			List<CarDto> getCars = service.getRentAbleCar(
 					request.getParameter("startName").trim(), 
 					request.getParameter("carType").trim(), 
 					request.getParameter("startDate").trim(),
 					request.getParameter("endDate").trim(),
-					"a@naver.com"
+					user.getId()
 					);
-			System.out.println(getCars.size());						
 			Gson g = new Gson();
 			
 			String cars = g.toJson(getCars);
-			
-			System.out.println(cars);
 			
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");

@@ -16,6 +16,7 @@
 
 <style>
 	.v_detail{display: none;}
+	.cancel_line{text-decoration:line-through; text-decoration-color: red;}
 </style>
 
 <script>
@@ -226,76 +227,83 @@ $(document).ready(function(){
 			success : function(data){
 				$('.row3').html('');
 				var eventApp = '';
-				for(i=0; i<data.length; i++){
-					$('.row3').append('<form action ="rent.do" method="post">'
-							+'<input type="hidden" name="startDate" value="'+startDate+'"/>'
-							+'<input type="hidden" name="endDate" value="'+endDate+'"/>'
-							+'<input type="hidden" name="startName" value="'+startName+'"/>'
-							+'<input type="hidden" name="endName" value="'+endName+'"/>'
-							+'<input type="hidden" name="carNumber" value="'+data[i].carNumber+'"/>'
-							+'<div class="row3_td01">지점</div>'
-			                + '<div class="row3_td02">차량</div>'
-			                + '<div class="row3_td03">대여요금</div>'
-			                + '<div class="row3_td04">시간당요금</div>'
-			                + '<div class="row3_td01" id="td01">'
-			                + '	<div class="td01_01 startSpotInfo">대여: <span>'+ startName +'</span> </div>'
-			                + '	<div class="td01_time startDateInfo">'+ r_startDate +'</div>'
-			                + '	<div class="td01_01 endSpotInfo">반납: <span>'+ endName +'</span></div>'
-			                + '	<div class="td01_time endDateInfo">'+ r_endDate +'</div>'
-			                + '</div>'
-			                + '<div class="row3_td02" id="td02">'
-			                + '	<div class="td02_carimg">'
-			                + '	<img src="carImg/k5.jpg">'
-			                + ' </div>'
-			                + ' <div class="td02_text">'
-			                + ' 	<div class="td02_text01">'+data[i].carName +'</div>'
-			                + '     <div class="td02_text02">유종 : '+data[i].oilType+'</div>'
-			                + '     <div class="td02_text03">옵션 : '+data[i].options+'</div>'
-			                + ' </div>'
-			                + '</div>'
-			                + '<div class="row3_td03 totalMoney" id="td03">'
-			                + ' <div class="td03_text" name="totalMoney">'+data[i].totalMoney+'원</div>'
-			                + '</div>'
-			                + '<div class="row3_td04" id="td04">'
-			                + '  <div class="td04_text" name="timeMoney">'+data[i].timeMoney+'원</div>'
-			                + '</div>'
-			                
-			            	+ '<div class="row3_atext01">'
-			                + '		<a href="javascript:;" target="_self" class="v_btn">자세히 </a>'
-			                + '</div>'
-			                + '<div class="clear"></div>'
-			                + '<div class="v_detail">'
-			                + '		<div class="row3_text01">할인&#8226;보험&#8226;옵션 선택</div>'
-			                + '		<div class="row3_select02">'
-			                + '    		<select name="babySeat">'
-			                + '				<option value="0">베이비 시트 비 적용</option>'
-			                + '				<option value="1">베이비 시트 적용</option>'
-			                + '			</select>'
-			                + '		</div>'
-			                + '		<div class="row3_select02" id="select02_02">'
-			                + '   	 	<select class="insurance" name="insurance">'
-			                + '       	 	<option value="0">비 보험</option>'
-			                + '       	 	<option value="1">보험(20,000원)</option>'
-			                + '    		</select>'
-			                + '		</div>'
-			                + '		<div class="bt">'
-			                + '      	  <button class="row3_bt">예약하기</button>'
-			                + '		</div>'			           
-			                + '</div>' 
-			                + '	</form>');
-					
-					// 보험 select Box에 클래스 명으로 순번을 정한다.
-					$('.insurance').each(function(index){
-						$('.insurance').addClass('insurace_'+ index);
-					});
+				if(data.length > 0){
+					for(i=0; i<data.length; i++){
+						$('.row3').append('<form action ="rent.do" method="post">'
+								+'<input type="hidden" name="startDate" value="'+startDate+'"/>'
+								+'<input type="hidden" name="endDate" value="'+endDate+'"/>'
+								+'<input type="hidden" name="startName" value="'+startName+'"/>'
+								+'<input type="hidden" name="endName" value="'+endName+'"/>'
+								+'<input type="hidden" name="carNumber" value="'+data[i].carNumber+'"/>'
+								+'<div class="row3_td01">지점</div>'
+				                + '<div class="row3_td02">차량</div>'
+				                + '<div class="row3_td03">대여요금</div>'
+				                + '<div class="row3_td04">시간당요금</div>'
+				                + '<div class="row3_td01" id="td01">'
+				                + '	<div class="td01_01 startSpotInfo">대여: <span>'+ startName +'</span> </div>'
+				                + '	<div class="td01_time startDateInfo">'+ r_startDate +'</div>'
+				                + '	<div class="td01_01 endSpotInfo">반납: <span>'+ endName +'</span></div>'
+				                + '	<div class="td01_time endDateInfo">'+ r_endDate +'</div>'
+				                + '</div>'
+				                + '<div class="row3_td02" id="td02">'
+				                + '	<div class="td02_carimg">'
+				                + '	<img src="carImg/k5.jpg">'
+				                + ' </div>'
+				                + ' <div class="td02_text">'
+				                + ' 	<div class="td02_text01">'+data[i].carName +'</div>'
+				                + '     <div class="td02_text02">유종 : '+data[i].oilType+'</div>'
+				                + '     <div class="td02_text03">옵션 : '+data[i].options+'</div>'
+				                + ' </div>'
+				                + '</div>'
+				                + '<div class="row3_td03 totalMoney" id="td03">'
+				                + ' <div class="td03_text" name="totalMoney">'+data[i].totalMoney+'원</div>'
+				                + '</div>'
+				                + '<div class="row3_td04" id="td04">'
+				                + '  <div class="td04_text" name="timeMoney">'+data[i].timeMoney+'원</div>'
+				                + '</div>'
+				                
+				            	+ '<div class="row3_atext01">'
+				                + '		<a href="javascript:;" target="_self" class="v_btn">자세히 </a>'
+				                + '</div>'
+				                + '<div class="clear"></div>'
+				                + '<div class="v_detail">'
+				                + '		<div class="row3_text01">할인&#8226;보험&#8226;옵션 선택</div>'
+				                + '		<div class="row3_select02">'
+				                + '    		<select name="babySeat">'
+				                + '				<option value="0">베이비 시트 비 적용</option>'
+				                + '				<option value="1">베이비 시트 적용</option>'
+				                + '			</select>'
+				                + '		</div>'
+				                + '		<div class="row3_select02" id="select02_02">'
+				                + '   	 	<select class="insurance" name="insurance">'
+				                + '       	 	<option value="0">비 보험</option>'
+				                + '       	 	<option value="1">보험(20,000원)</option>'
+				                + '    		</select>'
+				                + '		</div>'
+				                + '		<div class="bt">'
+				                + '      	  <button class="row3_bt">예약하기</button>'
+				                + '		</div>'			           
+				                + '</div>' 
+				                + '	</form>');
+						
+						if(data[i].eventAppMoney > 0){
+							$('.td03_text').html('<p class="cancel_line">금액 :' + data[i].totalMoney + '원</p>');						
+							$('.td03_text').append('<p>할인 금액: '+data[i].eventAppMoney+'원</p>');
+						}
+						// 보험 select Box에 클래스 명으로 순번을 정한다.
+	// 					$('.insurance').each(function(index){
+	// 						$('.insurance').addClass('insurace_'+ index);
+	// 					});
+					}	// for
+				
+					viewDtail();
+					appInsurance(data);
+				}else{	// if
+					$('.row3').append('<div class="row3_td01">렌트 가능 차량이 없습니다.</div>');
 				}
-				
-				viewDtail();
-				appInsurance(data);
-				
-			}
-		});
-	});
+			} // success
+		});	// ajax
+	});	// function
 	
 	function appInsurance(data){		
 		$('.insurance').change(function(){
@@ -304,20 +312,9 @@ $(document).ready(function(){
 			var index = $(".insurance").index(this);		// 이거 해결하는데 2시간 결렸다 ㅠㅠ $(this).index(); 는 형제 노드가 몇개인지 찾는 거고 와 $('.insurance').index(this); 전제 document에서 .insurance 클래스를 모두 select한 뒤 this 가 몇 번째 인덱스인지 찾는거다.
 			var flag = $(this).children('option:selected').index();
 			
-			alert("이벤트 적용 Money : " + data[index].eventAppMoney);
-			
-			if(data[i].eventAppMoney > 0){
-				$('.row3_td04').html(
-					'<div class="td04_text"><p>'+data[i].totalMoney+'</p>원' 
-					+'<p>이벤트 적용 : '+data[i].eventAppMoney+'</p></div>'
-				);
-			}
-			
-			if(flag == 0){
-				selector.html(data[index].totalMoney + '원');
-			}else if(flag == 1){
-				selector.html(data[index].totalMoney +'원 <br>+20,000원(보험)');
-			}
+			if(flag == 1){
+				selector.append('<p>+20,000원(보험)</p>');
+			}	
 		});
 	}
 	

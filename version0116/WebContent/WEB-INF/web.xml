@@ -21,6 +21,8 @@
     <url-pattern>/list.do</url-pattern>
     <url-pattern>/myPage.do</url-pattern>
     <url-pattern>/list.jsp</url-pattern>
+    <url-pattern>/rent.do</url-pattern>
+    <url-pattern>/reserveForm.do</url-pattern>
   </filter-mapping>
   <servlet>
     <servlet-name>ControllerUsingURI</servlet-name>

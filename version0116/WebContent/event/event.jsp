@@ -37,28 +37,7 @@
 
 <body>
 	<div id="wrap">
-		<header id="header">
-			<div id="top_line"></div>
-			<div id="top_back">
-				<div id="small_nav">
-					<a href="#">로그인</a><span>|</span> <a href="#">회원가입</a><span>|</span>
-					<a href="#">마이페이지</a>
-				</div>
-			</div>
-
-			<nav>
-				<ul>
-					<li id="logo"><a href="#">SAMPLE LOGO</a></li>
-					<li class="nav_text"><a href="#">서비스안내</a></li>
-					<li class="nav_text"><a href="#">요금안내</a></li>
-					<li class="nav_text"><a href="#">고객센터</a></li>
-					<li class="nav_text"><a href="#">이벤트/쿠폰</a></li>
-					<li id="nav_text_color"><a href="#">실시간예약</a></li>
-				</ul>
-			</nav>
-			<div class="clear"></div>
-			<div id="nav_line"></div>
-		</header>
+		 <jsp:include page="../top.jsp" />
 
 		<section id="row1">
 			<div id="row1_text01">이벤트/쿠폰</div>

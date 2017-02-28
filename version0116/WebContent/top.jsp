@@ -33,10 +33,10 @@
 	<ul>
 		<li id="logo"><a href="/version0116/index.jsp">SAMPLE LOGO</a></li>
 		<li class="nav_text"><a href="#">서비스안내</a></li>
-		<li class="nav_text"><a href="#">요금안내</a></li>
+		<li class="nav_text"><a href="/version0116/price.do">요금안내</a></li>
 		<li class="nav_text"><a href="/version0116/list.jsp">고객센터</a></li>
-		<li class="nav_text"><a href="#">이벤트/쿠폰</a></li>
-		<li id="nav_text_color"><a href="#">실시간예약</a></li>
+		<li class="nav_text"><a href="/version0116/event.do">이벤트/쿠폰</a></li>
+		<li id="nav_text_color"><a href="/version0116/reserveForm.do">실시간예약</a></li>
 	</ul>
 	</nav>
 	<div class="clear"></div>
