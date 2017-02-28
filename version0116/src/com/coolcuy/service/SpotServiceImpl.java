@@ -7,6 +7,7 @@ import java.util.List;
 import com.coolcuy.dao.SpotDao;
 import com.coolcuy.dao.SpotDaoImpl;
 import com.coolcuy.dto.SpotDto;
+import com.coolcuy.dto.SpotNameDto;
 import com.coolcuy.exception.NotFoundSpotException;
 import com.coolcuy.jdbc.connection.ConnectionProvider;
 import com.coolcuy.util.JdbcUtil;
@@ -144,5 +145,19 @@ public class SpotServiceImpl implements SpotService{
 		}
 		
 		return x;
+	}
+	
+	@Override
+	public List<SpotNameDto> getAllSpotName() {
+		Connection conn = null;
+		try{
+			conn = ConnectionProvider.getConnection();
+			
+			return dao.getAllSpotName(conn);
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}finally{
+			JdbcUtil.close(conn);
+		}
 	}
 }

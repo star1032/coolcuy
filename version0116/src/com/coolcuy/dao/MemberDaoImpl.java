@@ -1,5 +1,5 @@
 
-//데이터 베이스에 접근하는 객체
+//�뜲�씠�꽣 踰좎씠�뒪�뿉 �젒洹쇳븯�뒗 媛앹껜
 package com.coolcuy.dao;
 
 import java.sql.Connection;
@@ -27,6 +27,7 @@ public class MemberDaoImpl implements MemberDao {
 		PreparedStatement pstmt = null;
 		String quary = "INSERT INTO MEMBER VALUES(?,?,?,?,?,?,?,?,?,?,?,?,"
 				+ "TO_DATE(?, 'YYYY-MM-DD'),TO_DATE(?, 'YYYY-MM-DD'),SYSDATE,?,?)";
+
 		int x = -1;
 		try {
 			pstmt = conn.prepareStatement(quary);
@@ -52,7 +53,6 @@ public class MemberDaoImpl implements MemberDao {
 			
 			x = pstmt.executeUpdate();
 			
-			conn.commit();
 		}finally {
 			JdbcUtil.close(pstmt);
 		}
@@ -63,13 +63,12 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int delete(String element, Connection conn) throws SQLException{
 		PreparedStatement pstmt = null;
-		String query = "DELETE FROM MEMBER WHERE EMAIL=?";
+		String quary = "DELETE FROM MEMBER WHERE EMAIL=?";
 
 		int x = -1;
 
-		
 		try {
-			pstmt = conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(quary);
 
 			pstmt.setString(1, element);
 			x = pstmt.executeUpdate();
@@ -84,11 +83,11 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int deleteAll(Connection conn) throws SQLException{
 		PreparedStatement pstmt = null;
-		String query = "DELETE MEMBER ";
+		String quary = "DELETE MEMBER ";
 		int x = -1;
 		
 		try {
-			pstmt = conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(quary);
 
 			x = pstmt.executeUpdate();
 		}finally {
@@ -105,10 +104,11 @@ public class MemberDaoImpl implements MemberDao {
 		LicenseDto license = object.getLicenseDto();
 		int x = -1;
 		
-		String query = "UPDATE MEMBER SET PHONENUMBER=?, NAME=?, PASSWORD=?, ZIPCODE=?,"
+		String query = "UPDATE MEMBER SET PHONENUMBER=?, NAME=?, PASSWORD=?, ZIPCODE=?, "
 				+ "ROADADDR=?, DETAILADDR=?, PRIMARYAREA=?, LICENSENUMBER=?, LICENSETYPE=?, "
 				+ "GENDER=?, ISSUDATE=TO_DATE(?, 'YYYY-MM-DD'), "
-				+ "EXPIRYDATE=TO_DATE(?, 'YYYY-MM-DD') WHERE EMAIL=?";
+				+ "EXPIRYDATE=TO_DATE(?, 'YYYY-MM-DD') "
+				+ "WHERE EMAIL=?";
 		
 		try{
 			pstmt = conn.prepareStatement(query);
@@ -126,7 +126,7 @@ public class MemberDaoImpl implements MemberDao {
 			pstmt.setString(10, license.getGender());
 			pstmt.setString(11, license.getIssuDate());
 			pstmt.setString(12, license.getExpiryDate());
-			pstmt.setString(13, object.getEmail());
+			pstmt.setString(13, license.getEmail());
 			
 			x = pstmt.executeUpdate();
 		}finally{
@@ -140,20 +140,21 @@ public class MemberDaoImpl implements MemberDao {
 	public MemberDto get(String element, Connection conn) throws SQLException {
 		PreparedStatement pstmt = null;
 		ResultSet rs=null;
-				
-		String query = "SELECT EMAIL, PHONENUMBER, NAME, PASSWORD, RATING, ZIPCODE, "
+		
+		String quary = "SELECT EMAIL, PHONENUMBER, NAME, PASSWORD, RATING, ZIPCODE, "
 				+ "ROADADDR, DETAILADDR, PRIMARYAREA, LICENSENUMBER, LICENSETYPE, "
 				+ "GENDER, TO_CHAR(ISSUDATE, 'YYYY-MM-DD') AS ISSUDATE, "
 				+ "TO_CHAR(EXPIRYDATE, 'YYYY-MM-DD') AS EXPIRYDATE, "
-				+ "TO_CHAR(REGDATE, 'YYYY-MM-DD HH24:MI') AS REGDATE, "
+				+ "TO_CHAR(REGDATE, 'YYYY-MM-DD') AS REGDATE , "
 				+ "POINT, RENTCNT "
 				+ "FROM MEMBER "
 				+ "WHERE EMAIL=? "
 				+ "ORDER BY EMAIL ASC";
+
 		MemberDto member = null;
 
 		try {
-			pstmt = conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(quary);
 
 			pstmt.setString(1, element);
 			
@@ -198,7 +199,6 @@ public class MemberDaoImpl implements MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
-		
 		String query = "SELECT EMAIL, PHONENUMBER, NAME, "
 				+ "PASSWORD, RATING, TRIM(ZIPCODE) AS ZIPCODE, ROADADDR, "
 				+ "DETAILADDR, PRIMARYAREA, LICENSENUMBER, LICENSETYPE, GENDER, "
@@ -233,12 +233,14 @@ public class MemberDaoImpl implements MemberDao {
 						new LicenseDto(
 								rs.getString("email"), 
 								rs.getString("licenseNumber"),
-								rs.getString("licenseType"),
+								rs.getString("licenseType"), 
 								rs.getString("gender"),
 								rs.getString("issuDate"),
 								rs.getString("expiryDate")
 								)
-					);
+						);
+				
+				System.out.println(member.getLicenseDto().getLicenseNumber());
 				
 				members.add(member);
 			}
@@ -256,12 +258,12 @@ public class MemberDaoImpl implements MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String query = "SELECT EMAIL FROM MEMBER WHERE EMAIL=?";
+		String quary = "SELECT EMAIL FROM MEMBER WHERE EMAIL=?";
 		
 		String getEmail = null;
 		
 		try {
-			pstmt = conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(quary);
 			
 			pstmt.setString(1, email);
 
@@ -283,12 +285,12 @@ public class MemberDaoImpl implements MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String query = "SELECT COUNT(EMAIL) FROM MEMBER";
+		String quary = "SELECT COUNT(EMAIL) FROM MEMBER";
 
 		int count = -1;
 		
 		try {
-			pstmt = conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(quary);
 
 			rs = pstmt.executeQuery();
 
@@ -308,11 +310,11 @@ public class MemberDaoImpl implements MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		String query = "SELECT COUNT(EMAIL) AS COUNT FROM MEMBER WHERE EMAIL=? AND PASSWORD=? ";
+		String quary = "SELECT COUNT(EMAIL) AS COUNT FROM MEMBER WHERE EMAIL=? AND PASSWORD=?";
 		int x = -1;
 
 		try {
-			pstmt = conn.prepareStatement(query);
+			pstmt = conn.prepareStatement(quary);
 
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
@@ -330,4 +332,29 @@ public class MemberDaoImpl implements MemberDao {
 		return x;
 	}
 
+	@Override
+	public int getRating(String email, Connection conn) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		String quary = "SELECT RATING FROM MEMBER WHERE EMAIL=?";
+		int x = -1;
+
+		try {
+			pstmt = conn.prepareStatement(quary);
+
+			pstmt.setString(1, email);
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next())
+				x = rs.getInt("rating");
+			
+		}finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+		
+		return x;
+	}
 }

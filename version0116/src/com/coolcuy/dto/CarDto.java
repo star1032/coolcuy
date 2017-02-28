@@ -1,10 +1,10 @@
 package com.coolcuy.dto;
 
-import com.coolcuy.calendar.MyCalendar;
-
 public class CarDto {
 	private String carNumber;
 	private int timeMoney;
+	private int totalMoney;
+	private double eventAppMoney;
 	private String type;
 	private String brand;
 	private String seat;
@@ -16,22 +16,31 @@ public class CarDto {
 	private String regDate;
 	private String babySeat;
 	private String spotName;
-	private MyCalendar calendar;
-
-	public void setCalendar(MyCalendar calendar){
-		this.calendar = calendar;
-	}
-	
-	public MyCalendar getCalendar(){
-		return this.calendar;
-	}
 	
 	public CarDto(){}
 	
-	public CarDto(String carNumber, String brand, int timeMoney, String type,
-			String seat, String options, String oilType, String carName, String yearModel, String kilometer, String babySeat, String spotName){
+	public CarDto(String carNumber, String brand, int totalMoney, String type,
+			String seat, String options, String oilType, String carName, String yearModel, String kilometer, 
+			String babySeat, String spotName){
+		this.carNumber=carNumber;
+		this.type=type;
+		this.brand=brand;
+		this.seat=seat;
+		this.options=options;
+		this.oilType=oilType;
+		this.carName=carName;
+		this.yearModel=yearModel;
+		this.kilometer=kilometer;
+		this.spotName=spotName;
+		this.babySeat = babySeat;
+	}
+	
+	public CarDto(String carNumber, String brand, int timeMoney, int totalMoney, String type,
+			String seat, String options, String oilType, String carName, String yearModel, String kilometer, 
+			String babySeat, String spotName){
 		this.carNumber=carNumber;
 		this.timeMoney=timeMoney;
+		this.totalMoney = totalMoney;
 		this.type=type;
 		this.brand=brand;
 		this.seat=seat;
@@ -59,6 +68,16 @@ public class CarDto {
 		this.kilometer=kilometer;
 		this.spotName=spotName;
 		this.babySeat = babySeat;
+	}
+	
+	
+	
+	public int getTotalMoney() {
+		return totalMoney;
+	}
+
+	public void setTotalMoney(int totalMoney) {
+		this.totalMoney = totalMoney;
 	}
 
 	public String getCarNumber() {
@@ -163,5 +182,13 @@ public class CarDto {
 
 	public void setBabySeat(String babySeat) {
 		this.babySeat = babySeat;
+	}
+
+	public double getEventAppMoney() {
+		return eventAppMoney;
+	}
+
+	public void setEventAppMoney(double eventAppMoney) {
+		this.eventAppMoney = eventAppMoney;
 	}
 }

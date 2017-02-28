@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.coolcuy.dto.SpotDto;
+import com.coolcuy.dto.SpotNameDto;
 import com.coolcuy.util.JdbcUtil;
 
 public class SpotDaoImpl implements SpotDao {
@@ -223,5 +224,32 @@ public class SpotDaoImpl implements SpotDao {
 		
 		return x;
 	}
-
+		
+	@Override
+	public List<SpotNameDto> getAllSpotName(Connection conn) throws SQLException {
+		PreparedStatement pstmt = null;
+		
+		ResultSet rs = null;
+		List<SpotNameDto> spotNames = null;
+				
+		String query = "SELECT AREA, SPOTNAME FROM SPOT";
+		
+		try{
+			pstmt = conn.prepareStatement(query);			
+			rs = pstmt.executeQuery();
+			
+			spotNames = new ArrayList<SpotNameDto>();
+			
+			while(rs.next()){
+				
+				spotNames.add(new SpotNameDto(rs.getString("area"), rs.getString("spotName")));
+			}
+		
+		}finally{
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+		
+		return spotNames;
+	}
 }

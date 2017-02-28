@@ -28,7 +28,7 @@ public class CarDaoImpl implements CarDao {
 				+ "YEARMODEL, KILOMETER, SPOTNAME, BABYSEAT) "
 				+ "VALUES(?,?,?,SYSDATE,?,?,?,?,?,?,?,?,?)";
 		
-//		CARCONDITION -> 1. 처리 완료, 2. 정비 필요함. 3. 폐차 Car테이블과 Associate 할 테이블 추가 요망
+//		CARCONDITION -> 1. 泥섎━ �셿猷�, 2. �젙鍮� �븘�슂�븿. 3. �룓李� Car�뀒�씠釉붽낵 Associate �븷 �뀒�씠釉� 異붽� �슂留�
 		
 		int x = -1;
 		
@@ -313,5 +313,30 @@ public class CarDaoImpl implements CarDao {
 		}
 		
 		return cars;
+	}
+	
+	@Override
+	public List<String> getAllType(String spotName, Connection conn) throws SQLException {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<String> getType = null;
+		
+		String query = "SELECT TYPE FROM CAR WHERE SPOTNAME=? GROUP BY TYPE";
+		try{
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, spotName);
+			
+			rs = pstmt.executeQuery();
+			getType = new ArrayList<String>();
+			
+			while(rs.next()){
+				getType.add(rs.getString(1));
+			}
+		}finally{
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(rs);
+		}
+		
+		return getType;
 	}	
 }

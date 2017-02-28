@@ -175,6 +175,23 @@ public class CarServiceImpl implements CarService{
 		
 		return x;
 	}
+
+	@Override
+	public List<String> getAllType(String spotName) {
+		Connection conn = null;
+		List<String> getType = null;
+		
+		try{
+			conn = ConnectionProvider.getConnection();
+			getType = dao.getAllType(spotName, conn);
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}finally{
+			JdbcUtil.close(conn);
+		}
+		
+		return getType;
+	}
 	
 	
 
