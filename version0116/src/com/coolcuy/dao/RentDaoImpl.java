@@ -403,7 +403,7 @@ public class RentDaoImpl implements RentDao{
 			JdbcUtil.close(pstmt);
 			JdbcUtil.close(rs);
 		}		
-		
+		//
 			
 		return getCars;
 	}
