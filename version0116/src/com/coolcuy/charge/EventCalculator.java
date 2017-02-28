@@ -20,7 +20,7 @@ public class EventCalculator {
 					saleName = event.getSaleName();
 					disCount = Integer.parseInt(saleName.substring(0, saleName.length() - 1));
 					
-					car.setEventAppMoney(innerOperator(car.getTotalMoney(), disCount));	
+					car.setEventAppMoney(innerOperator(car.getTotalMoney(), disCount));
 				}
 			}
 		}
@@ -28,9 +28,8 @@ public class EventCalculator {
 		return carList;
 	}
 	
-	public double innerOperator(int totalMoney, int disCount){
-		System.out.println(totalMoney * (1-(double)disCount / 100));
-		return totalMoney * (1-(double)disCount / 100);
+	public int innerOperator(int totalMoney, int disCount){
+		return (int)(totalMoney * (1-(double)disCount / 100));
 	}
 	
 	public boolean compareType(String carType, String[] eventTypes){

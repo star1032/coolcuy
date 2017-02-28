@@ -15,9 +15,12 @@ public class EventDto {
 	private String imageName;
 	private String limitType;
 	private String regDate;
-
+	
+	
 	public EventDto() {}
-
+	
+	public EventDto(String limitType) {this.limitType = limitType;}
+	
 	public EventDto(String eventNumber, String eventName, Date eventNoticeDay, Date eventStart, Date eventEnd,
 			String availableSpot, String saleName, String restriction, String note, String imageName, String limitType,
 			String regDate) {

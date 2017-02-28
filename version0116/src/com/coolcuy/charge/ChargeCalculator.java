@@ -30,7 +30,6 @@ public class ChargeCalculator {
 		this.priceMap = priceMap;
 		this.carList = carList;
 		this.rating = rating;
-		
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
 		
 		try {
@@ -63,7 +62,7 @@ public class ChargeCalculator {
 		
 		for(CarDto car : carList){
 			PriceDto price = priceMap.get(car.getCarName());
-
+			
 			peakSeasonCharge = price.getPeakSeasonCharge() * peakSeasonHour;
 			weekendCharge = price.getWeekEndCharge() * weekendHour;
 			weekCharge = price.getWeekDayCharge() * weekHour;

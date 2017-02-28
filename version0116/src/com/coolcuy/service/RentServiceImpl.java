@@ -36,6 +36,7 @@ public class RentServiceImpl implements RentService{
 			conn = ConnectionProvider.getConnection();
 			x = dao.add(object, conn);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}finally{
 			JdbcUtil.close(conn);
@@ -124,31 +125,48 @@ public class RentServiceImpl implements RentService{
 			conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 			
+			// �젋�듃 媛��뒫�븳 �옄�룞李⑤�� 遺덈윭�삩�떎.
 			getCars = dao.getRentAbleCar(spot, startDate, endDate, type, conn);
 			
+			// �듃�옖�옲�뀡 泥섎━瑜� �쐞�빐 Dao�뱾�쓣 �뿬湲곗꽌 �꽑�뼵/�깮�꽦�븯���떎. 由ы럺�넗留� �슂留�..
 			priceDao = new PriceDaoImpl();
+			// �슂湲� �뜲�씠�꽣瑜� 遺덈윭�삩�떎.
 			List<PriceDto> getPrice = priceDao.getAll(conn);
 			
+			for(int i=0; i<getPrice.size(); i++){
+
+				System.out.println(getPrice.get(i).getCarName());
+			
+			}
+			
+			// 留대쾭�쓽 �벑湲됱쓣 遺덈윭�삩�떎.
 			memberDao = new MemberDaoImpl();
 			int rating = memberDao.getRating(email, conn);
-				
+			
 			eventDao = new EventDaoImpl();
 			List<EventDto> eventList = eventDao.getByCondition(spot, startDate, endDate, conn);
 			
 			conn.commit();
 			
+			// �슂湲� 怨꾩궛�쓣 �쐞�븳 珥덇린�솕 Map<CarName, PriceDto> List濡� 媛��졇�룄 �긽愿��뾾吏�留�.. Map�궗�슜 �빐遊�..
 			Map<String, PriceDto> priceMap = new HashMap<String, PriceDto>();
 			for(PriceDto list : getPrice){
 				priceMap.put(list.getCarName(), list);
 			}
 			
+			// �슂湲� 怨꾩궛 Object
 			ChargeCalculator chargeCal = new ChargeCalculator(priceMap, getCars, rating, startDate, endDate);
 			List<CarDto> caledCars = chargeCal.operator();
 			
+			// �씠踰ㅽ듃 �뿰�궛.
 			EventCalculator eventCal = new EventCalculator();
 			
+			// (eventCaledCars �� caledCars, getCar�뒗 媛숈� reference�씠�떎..... 寃곌뎅.. 媛숈� reference瑜� �솢 由ы꽩�븯�깘怨�....)
 			List<CarDto> eventCaledCars = eventCal.operator(eventList, caledCars);
 			
+			System.out.println("�씠踰ㅽ듃 �쟻�슜 湲덉븸" + eventCaledCars.get(0).getEventAppMoney());
+			
+			// getCar瑜� ChargeCalculator�� EventCalculator�쓽 �깮�꽦�옄�뿉 �꽔�옄..
 			
 			for(CarDto car : eventCaledCars)
 				System.out.println(car.getCarName() +" : "+car.getEventAppMoney());
@@ -156,6 +174,7 @@ public class RentServiceImpl implements RentService{
 			return getCars;
 		} catch (SQLException e) {
 			try {conn.rollback();} catch (SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}finally{
 			JdbcUtil.close(conn);
